@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+ <title>{% block title %}Home{% endblock title %}</title>
+
+{% block content %}
+
+<div class="container">
+   {% if data %} <!--if data  not found in database -->
+    {% for i in data %}  
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card" style="border-radius:30px;" >
+                
+                    {% if i.video_func == POST_TYPE.VIDEO %}
+                    <video autoplay="autoplay" controls="controls" preload="preload" style=" border-top-left-radius: 30px; border-top-right-radius: 30px;">
+                        <source src="static/all_post/{{i.post_data}}" type="video/mp4"></source>
+                    </video>
+                    {% elif i.video_func == POST_TYPE.IMAGE %}
+                        <img src="static/all_post/{{i.post_data}}" style=" border-top-left-radius: 30px; border-top-right-radius: 30px;">
+
+                    {% elif i.video_func == POST_TYPE.GIF %}  
+                        <img src="static/all_post/{{i.post_data}}" style=" border-top-left-radius: 30px; border-top-right-radius: 30px;">
+                    {% endif %}
+                    
+                <div>
+                    <div class="card-body text-center  py-3">
+                        <small class="me-3"><i class="icon-clock icons me-2"></i> {{i.show_datetime}} Posted ago</small>
+                        <small><i class="icon-eye icons me-2"></i> 553</small>
+                    <h5 class="card-title">{{i.post_title}}</h5>
+                    <p class="card-text">{{i.post_description }}</p>
+                </div>
+
+              <div class="py-4 d-flex align-items-center">
+                <a class="author" href="#">
+                        {% if i.user.user_image == '' %}
+                             <img src="{{url_for('static',filename='user_profile_images/default.png')}}" height='50px;' width='50px'>&nbsp;
+                        {% else %}
+                            <img class="avatar-xs img-fluid rounded-circle" src="static/user_profile_images/{{i.user.user_image}}">&nbsp;       
+                        {% endif %}
+                    <div><small>{{ i.user.username }}</small></div><div class="vbadge"> 
+                    </div>
+                </a>
+                    <div class="card-like p-0">
+                          <div class="d-flex align-items-center">
+                              <!-- <span class="heart" ></span> -->
+                         
+                              <span  class="iconify" id="like_show{{i.id}}" onclick="heartid('{{i.id}}');" data-icon="ant-design:heart-filled" style="color: red; cursor:pointer;" data-width="35" data-height="35"></span>  
+                         
+                              <span  class="iconify" id="unlike_hide{{i.id}}" onclick="heartid('{{i.id}}');" data-icon="ci:heart-fill" data-width="35" data-height="35" style="cursor:pointer;"></span>
+                           
+                              <span id="like_count{{i.id}}">{{i.like_count}}</span>
+                          </div>   
+                    </div>
+              </div>
+            </div>
+            </div>
+        </div> 
+    </div>
+    {% endfor %}
+   {% else %}
+   <h2>No post yet</h2>
+   {% endif %}
+</div>
+<!--
+<div class="col-lg-12">
+    <div class="card">
+        <img src="	https://www.ancmedia.net/instant-blog/uploads/1600259312.jpg
+        " class="card-img-top" alt="...">
+        <div class="card-body text-center">
+            <small class="me-3"><i class="fa fa-clock-o" aria-hidden="true"></i> 1 year ago</small>
+            <small><i class="fa fa-eye" aria-hidden="true"></i> 12</small>
+            <h4 class="mt-4">How To Build Confidence From Scratch</h4>
+            <p class="card-text mb-4">Michael Edwards, better known as Eddie “The Eagle” is a British skier </p>
+
+            <div class="profile d-flex  justify-content-between align-items-center">
+               <p> <img src="	https://www.ancmedia.net/instant-blog/images/defaultuser.png" class="img-fluif" alt=""> <span>Admin Name</span>
+                 <img src="https://www.ancmedia.net/instant-blog/images/patch-check-fill-w.svg" alt="" class="img-fluid w-5 award-img"></p>
+                 <p><i class="fa fa-heart" aria-hidden="true"></i> <span>0</span></p>
+            </div> 
+        </div>
+    </div>
+    
+</div>
+-->
+{% endblock content %}
+
+{% block footer %}
+    <footer class="blog-footer">
+    <ul class="list-inline">
+        
+       <li class="list-inline-item"><a class="text-light" href="#">Sample Page 2</a></li>
+        
+       <li class="list-inline-item"><a class="text-light" href="#">Sample Page</a></li>
+        
+    </ul>
+    <div class="text-muted foottxt"><p>© 2021 Tumblr Web Portfolio.</p></div>
+</footer>
+{% endblock footer %}
+
+{% block js%}
+
+<!-- <script>
+function postid(id){
+    var id=id;
+    console.log(id);
+}
+</script> -->
+{% endblock js %}
